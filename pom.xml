@@ -143,6 +143,12 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
+		<pluginRepository>
+			<id>mulesoft-ee-releases</id>
+			<name>MuleSoft EE Releases Repository</name>
+			<url>https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/</url>
+			<layout>default</layout>
+		</pluginRepository>
 	</pluginRepositories>
 	<distributionManagement>
 		<repository>
