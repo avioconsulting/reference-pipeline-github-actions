@@ -8,9 +8,6 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd http://www.mulesoft.org/schema/mule/avio-core http://www.mulesoft.org/schema/mule/avio-core/current/mule-avio-core.xsd       
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-    <!-- AVIO Mule Logger configuration -->
-	<avio-core:config name="avio-core-config" doc:name="AVIO Core Config" doc:id="4e221d01-3161-46ac-8e95-791ff05ce148" app_name="${api.name}" app_version="${api.version}" env="${env}" />
-
     <!-- This is the Configuration to make mule always refer to globalErrorHandler defined in error-handling.xml for handling exceptions -->
     <configuration defaultErrorHandler-ref="globalErrorHandler"/>
 
@@ -95,7 +92,6 @@ output application/json
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<avio-core:custom-logger doc:name="Custom logger" doc:id="bb3bbc7a-55b6-4b32-ad2d-e99da03dab4d" config-ref="avio-core-config" correlation_id="#[vars.requestId]" message="Exception Occured" level="ERROR" tracePoint="EXCEPTION" status_code="#[payload.statusCode]" type='#[payload.error."type"]' detail="#[payload.error.detail]"/>
 	</sub-flow>
 
 
