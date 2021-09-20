@@ -37,8 +37,8 @@ jobs:
             [
               {
                 "id": "avio-repository",
-                "username": "${secrets.NEXUS_USER}",
-                "password": "${secrets.NEXUS_PASSWORD}"
+                "username": "${{secrets.NEXUS_USER}}",
+                "password": "${{secrets.NEXUS_PASSWORD}}"
               }
             ]
           mirrors: >
