@@ -28,8 +28,22 @@ jobs:
       - name: Create settings xml
         uses: whelk-io/maven-settings-xml-action@v18
         with:
-          servers: '[{ "id": "avio-repository", "username": ${secrets.NEXUS_USER}, "password": ${secrets.NEXUS_PASSWORD} }]'
-          mirrors: '[{ "id": "avio-repository", "mirrorOf": "mule-ee-releases", "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/" }]'
+          servers: >
+            [
+              {
+                "id": "avio-repository",
+                "username": "${secrets.NEXUS_USER}",
+                "password": "${secrets.NEXUS_PASSWORD}"
+              }
+            ]
+          mirrors: >
+            [
+              {
+                "id": "avio-repository",
+                "mirrorOf": "mule-ee-releases",
+                "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
+              }
+            ]
 
       - name: Print Maven version
         run: mvn -version
