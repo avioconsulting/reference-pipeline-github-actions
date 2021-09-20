@@ -45,7 +45,7 @@ jobs:
             [
               {
                 "id": "avio-repository",
-                "mirrorOf": "mule-ee-releases",
+                "mirrorOf": "mulesoft-ee-releases",
                 "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
               }
             ]
