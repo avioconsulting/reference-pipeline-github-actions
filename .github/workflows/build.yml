@@ -49,6 +49,9 @@ jobs:
       - name: Print Maven version
         run: echo mvn -version
 
+      - name: Print Generated settings.xml
+        run: echo "$(cat ~/.m2/settings.xml)"
+
       - name: Set Version
         id: set-version
         run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
