@@ -47,7 +47,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: Print Maven version
-        run: echo mvn -version
+        run: mvn -version
 
       - name: Print Generated settings.xml
         run: echo "$(cat ~/.m2/settings.xml)"
