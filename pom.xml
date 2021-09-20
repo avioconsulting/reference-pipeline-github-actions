@@ -6,7 +6,7 @@
 	<artifactId>hello-world-test-api</artifactId>
 	<!-- IMPORTANT:- Make sure you change this version in your application's 
 		global property(pomVersion) as well to log this current application version -->
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
 	<name>test-hello-world-api</name>
