@@ -1,0 +1,32 @@
+#%RAML 1.0
+title: Test Hello World API
+#baseUri: http://localhost:8081/
+version: v1.0
+#######################################################################
+# WHO  WHEN      WHY
+# dw  09-15-2021  intitial commit
+#######################################################################
+
+protocols: [HTTP, HTTPS]
+
+#mediaType: [application/json]
+
+documentation:
+  - title: Test Hello World API
+    content: An API to test reference pipelines.
+
+uses:
+  commonTraits: exchange_modules/f2ea2cb4-c600-4bb5-88e8-e952ff5591ee/bootcamp-common-fragment/1.0.6/common-traits.raml
+
+  
+/helloworld:
+    displayName: Hello World
+    description: Return a Hello World message
+    is: [commonTraits.correlationRequired, commonTraits.clientIdRequired]
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/helloworld.json
+          
