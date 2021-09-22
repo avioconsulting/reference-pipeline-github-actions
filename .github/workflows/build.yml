@@ -63,6 +63,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
+      -name: Append Github run_id
+        run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}-${{github.run_id}} -DprocessAllModules versions:commit
+
       - name: Set Version
         id: set-version
         run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
@@ -81,7 +84,7 @@ jobs:
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: ./*/*/surefire-reports/*.xml
+          files: ./**/surefire-reports/*.xml
 
       - name: Publish package
         if: github.event_name != 'pull_request'
@@ -91,11 +94,11 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
 
       - name: Perform Release
-        if: ${{ !contains(steps.set-version.outputs.version, 'SNAPSHOT') && github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'development' }}
         run: echo "Releasing version ${{ steps.set-version.outputs.version }}"
 
       - name: Perform Release
-        if: ${{ !contains(steps.set-version.outputs.version, 'SNAPSHOT') && github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'development'  }}
         env:
           GIT_USER: ${{ secrets.GIT_USER }}
           GIT_PASSWORD: ${{ secrets.GIT_TOKEN }}
@@ -104,17 +107,39 @@ jobs:
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git config --global user.name "${{ secrets.GIT_USER }}"
           git tag -a v${{ steps.set-version.outputs.version }} -m "Version ${{ steps.set-version.outputs.version }}"
-          mvn clean build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion}-SNAPSHOT -DprocessAllModules versions:commit
+          mvn clean build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} -DprocessAllModules versions:commit
           find . -name 'pom.xml' | xargs git add
           git commit -m "Incrementing to next SNAPSHOT patch version"
           git push --follow-tags
-      
-      - name: Add Release Note and Create Github Release
-        if: ${{ !contains(steps.set-version.outputs.version, 'SNAPSHOT') && github.event_name != 'pull_request' }}
-        uses: release-drafter/release-drafter@v5
-        with:
-          version: ${{ steps.set-version.outputs.version }}
-          tag: v${{ steps.set-version.outputs.version }}
-          publish: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Uncomment this section once we decide how we're going to do release notes
+#      
+#      - name: Add Release Note and Create Github Release
+#        if: ${{ !contains(steps.set-version.outputs.version, 'SNAPSHOT') && github.event_name != 'pull_request' }}
+#        uses: release-drafter/release-drafter@v5
+#        with:
+#          version: ${{ steps.set-version.outputs.version }}
+#          tag: v${{ steps.set-version.outputs.version }}
+#          publish: true
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-to-dev:
+    needs: Build
+    environment: 'Development'
+    runs-on: ubuntu-latest
+
+    steps:
+
+      -name: Publish
+      run: echo "Publish to dev env"
+
+  publish-to-prod:
+    needs: [Build,publish-to-dev]
+    environment: 'Production'
+    runs-on: ubuntu-latest
+
+    steps:
+
+      -name: Publish
+      run: echo "Publish to prod env"
