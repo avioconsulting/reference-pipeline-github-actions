@@ -132,7 +132,7 @@ jobs:
 
     steps:
 
-      -name: Publish
+    - name: Publish
       run: echo "Publish to dev env"
 
   publish-to-prod:
@@ -142,5 +142,5 @@ jobs:
 
     steps:
 
-      -name: Publish
+    - name: Publish
       run: echo "Publish to prod env"
