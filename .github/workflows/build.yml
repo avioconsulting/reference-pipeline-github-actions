@@ -63,8 +63,8 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
-      -name: Append Github run_id
-        run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}-${{github.run_id}} -DprocessAllModules versions:commit
+      - name: Append Github run_id
+        run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}-${{ github.run_id }} -DprocessAllModules versions:commit
 
       - name: Set Version
         id: set-version
