@@ -131,9 +131,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
+      
     - name: Publish
-      run: echo "Publish to dev env"
+      run: |
+        echo "Publish to dev env"
+        mvn clean package mule:deploy -DmuleVersion=4.3.0 -Danypoint.username=${{ secrets.ANYPOINT_USER }} -Danypoint.password=${{ secrets.ANYPOINT_PASSWORD }} -Dmule.app.name=test-hello-world-api -DanypointGroupId=${{ secrets.ANYPOINT_GROUP_ID }} -Denv=DEV -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -DcloudhubWorkers=1 -DcloudhubWorkerType=Micro
 
   publish-to-prod:
     needs: [Build,publish-to-dev]
@@ -143,4 +145,6 @@ jobs:
     steps:
 
     - name: Publish
-      run: echo "Publish to prod env"
+      run: |
+        echo "Publish to prod env"
+        mvn clean package mule:deploy -DmuleVersion=4.3.0 -Danypoint.username=${{ secrets.ANYPOINT_USER }} -Danypoint.password=${{ secrets.ANYPOINT_PASSWORD }} -Dmule.app.name=test-hello-world-api -DanypointGroupId=${{ secrets.ANYPOINT_GROUP_ID }} -Denv=DEV -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -DcloudhubWorkers=1 -DcloudhubWorkerType=Micro
