@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<app.runtime>4.2.2-20210129</app.runtime>
+		<app.runtime>4.3.0-20210823</app.runtime>
 		<mule.maven.plugin.version>3.3.5</mule.maven.plugin.version>
 		<munit.version>2.3.5</munit.version>
 	</properties>
@@ -61,6 +61,30 @@
 							<format>html</format>
 						</formats>
 					</coverage>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mule.tools.maven</groupId>
+				<artifactId>mule-maven-plugin</artifactId>
+				<version>${mule.maven.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<classifier>mule-application</classifier>
+					<cloudHubDeployment>
+						<uri>https://anypoint.mulesoft.com</uri>
+						<muleVersion>${muleVersion}</muleVersion>
+						<username>${anypoint.username}</username>
+						<password>${anypoint.password}</password>
+						<applicationName>${project.artifactId}</applicationName>
+						<environment>${env}</environment>
+						<businessGroupId>${anypointGroupId}</businessGroupId>
+						<workers>${cloudhubWorkers}</workers>
+						<workerType>${cloudhubWorkerType}</workerType>
+						<properties>
+							<anypoint.platform.client_id>${anypoint.platform.client_id}</anypoint.platform.client_id>
+							<anypoint.platform.client_secret>${anypoint.platform.client_secret}</anypoint.platform.client_secret>
+						</properties>
+					</cloudHubDeployment>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -153,16 +177,16 @@
 	<distributionManagement>
 		<repository>
 			<id>avio-repository</id>
-            <name>avio-releases</name>
-            <url>https://devops.avioconsulting.com/nexus/repository/avio-releases/</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-        	<id>avio-repository</id>
-            <name>avio-snapshots</name>
-            <url>https://devops.avioconsulting.com/nexus/repository/avio-snapshots/</url>
-            <layout>default</layout>
-        </snapshotRepository>
-    </distributionManagement>
+			<name>avio-releases</name>
+			<url>https://devops.avioconsulting.com/nexus/repository/avio-releases/</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>avio-repository</id>
+			<name>avio-snapshots</name>
+			<url>https://devops.avioconsulting.com/nexus/repository/avio-snapshots/</url>
+			<layout>default</layout>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
