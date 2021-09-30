@@ -50,12 +50,6 @@ jobs:
               }
             ]
 
-      - name: Print Maven version
-        run: mvn -version
-
-      - name: Print Generated settings.xml
-        run: echo "$(cat ~/.m2/settings.xml)"
-
       - name: Cache for maven dependencies
         uses: actions/cache@v2
         with:
@@ -145,7 +139,34 @@ jobs:
       uses: stCarolas/setup-maven@v4.2
       with:
         maven-version: 3.6.1
-      
+    
+    - name: Create settings xml
+        uses: whelk-io/maven-settings-xml-action@v18
+        with:
+          servers: >
+            [
+              {
+                "id": "avio-repository",
+                "username": "${{secrets.NEXUS_USER}}",
+                "password": "${{secrets.NEXUS_PASSWORD}}"
+              }
+            ]
+          mirrors: >
+            [
+              {
+                "id": "avio-repository",
+                "mirrorOf": "mulesoft-ee-releases",
+                "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
+              }
+            ]
+
+      - name: Cache for maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven  
+
     - name: Publish
       run: |
         echo "Publish to dev env"
@@ -171,6 +192,33 @@ jobs:
       uses: stCarolas/setup-maven@v4.2
       with:
         maven-version: 3.6.1
+
+    - name: Create settings xml
+        uses: whelk-io/maven-settings-xml-action@v18
+        with:
+          servers: >
+            [
+              {
+                "id": "avio-repository",
+                "username": "${{secrets.NEXUS_USER}}",
+                "password": "${{secrets.NEXUS_PASSWORD}}"
+              }
+            ]
+          mirrors: >
+            [
+              {
+                "id": "avio-repository",
+                "mirrorOf": "mulesoft-ee-releases",
+                "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
+              }
+            ]
+
+      - name: Cache for maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
 
     - name: Publish
       run: |
