@@ -141,24 +141,24 @@ jobs:
         maven-version: 3.6.1
     
     - name: Create settings xml
-        uses: whelk-io/maven-settings-xml-action@v18
-        with:
-          servers: >
-            [
-              {
-                "id": "avio-repository",
-                "username": "${{secrets.NEXUS_USER}}",
-                "password": "${{secrets.NEXUS_PASSWORD}}"
-              }
-            ]
-          mirrors: >
-            [
-              {
-                "id": "avio-repository",
-                "mirrorOf": "mulesoft-ee-releases",
-                "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
-              }
-            ]
+      uses: whelk-io/maven-settings-xml-action@v18
+      with:
+        servers: >
+          [
+            {
+              "id": "avio-repository",
+              "username": "${{secrets.NEXUS_USER}}",
+              "password": "${{secrets.NEXUS_PASSWORD}}"
+            }
+          ]
+        mirrors: >
+          [
+            {
+              "id": "avio-repository",
+              "mirrorOf": "mulesoft-ee-releases",
+              "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
+            }
+          ]
 
       - name: Cache for maven dependencies
         uses: actions/cache@v2
@@ -194,24 +194,24 @@ jobs:
         maven-version: 3.6.1
 
     - name: Create settings xml
-        uses: whelk-io/maven-settings-xml-action@v18
-        with:
-          servers: >
-            [
-              {
-                "id": "avio-repository",
-                "username": "${{secrets.NEXUS_USER}}",
-                "password": "${{secrets.NEXUS_PASSWORD}}"
-              }
-            ]
-          mirrors: >
-            [
-              {
-                "id": "avio-repository",
-                "mirrorOf": "mulesoft-ee-releases",
-                "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
-              }
-            ]
+      uses: whelk-io/maven-settings-xml-action@v18
+      with:
+        servers: >
+          [
+            {
+              "id": "avio-repository",
+              "username": "${{secrets.NEXUS_USER}}",
+              "password": "${{secrets.NEXUS_PASSWORD}}"
+            }
+          ]
+        mirrors: >
+          [
+            {
+              "id": "avio-repository",
+              "mirrorOf": "mulesoft-ee-releases",
+              "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
+            }
+          ]
 
       - name: Cache for maven dependencies
         uses: actions/cache@v2
