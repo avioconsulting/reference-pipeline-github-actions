@@ -82,7 +82,7 @@ jobs:
           files: ./**/surefire-reports/*.xml
 
       - name: Publish package
-        if: github.event_name != 'pull_request'
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'development'  }}
         run: mvn --batch-mode deploy -DskipTests -X
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
@@ -122,6 +122,7 @@ jobs:
   publish-to-dev:
     needs: Build
     environment: 'Development'
+    if: ${{ github.ref == 'development'  }}
     runs-on: ubuntu-latest
 
     steps:
@@ -159,7 +160,7 @@ jobs:
               "url": "https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/"
             }
           ]
-          
+
     - name: Cache for maven dependencies
       uses: actions/cache@v2
       with:
@@ -175,6 +176,7 @@ jobs:
   publish-to-prod:
     needs: [Build,publish-to-dev]
     environment: 'Production'
+    if: ${{ github.ref == 'development'  }}
     runs-on: ubuntu-latest
 
     steps:
