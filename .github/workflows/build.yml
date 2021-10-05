@@ -82,18 +82,18 @@ jobs:
           files: ./**/surefire-reports/*.xml
 
       - name: Publish package
-        if: ${{ github.event_name != 'pull_request' && github.ref == 'development'  }}
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/development'  }}
         run: mvn --batch-mode deploy -DskipTests -X
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
 
       - name: Perform Release
-        if: ${{ github.event_name != 'pull_request' && github.ref == 'development' }}
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/development' }}
         run: echo "Releasing version ${{ steps.set-version.outputs.version }}"
 
       - name: Perform Release
-        if: ${{ github.event_name != 'pull_request' && github.ref == 'development'  }}
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/development'  }}
         env:
           GIT_USER: ${{ secrets.GIT_USER }}
           GIT_PASSWORD: ${{ secrets.GIT_TOKEN }}
@@ -122,7 +122,7 @@ jobs:
   publish-to-dev:
     needs: Build
     environment: 'Development'
-    if: ${{ github.ref == 'development'  }}
+    if: ${{ github.ref == 'refs/heads/development'  }}
     runs-on: ubuntu-latest
 
     steps:
@@ -176,7 +176,7 @@ jobs:
   publish-to-prod:
     needs: [Build,publish-to-dev]
     environment: 'Production'
-    if: ${{ github.ref == 'development'  }}
+    if: ${{ github.ref == 'refs/heads/development'  }}
     runs-on: ubuntu-latest
 
     steps:
