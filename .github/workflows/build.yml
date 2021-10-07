@@ -138,7 +138,7 @@ jobs:
         restore-keys: ${{ runner.os }}-maven  
 
     - name: Pull down artifact from Nexus
-      run: curl -u ${{secrets.NEXUS_USER}}:${{secrets.NEXUS_PASSWORD}} https://devops.avioconsulting.com/nexus/service/rest/v1/search/assets/download?repository=avio-releases&group=${{ needs.Build.outputs.groupId }}&name=${{ needs.Build.outputs.artifactId }}&version=${{ needs.Build.outputs.version }}&maven.extension=jar -L --output ${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar
+      run: curl -L -u ${{secrets.NEXUS_USER}}:${{secrets.NEXUS_PASSWORD}} 'https://devops.avioconsulting.com/nexus/service/rest/v1/search/assets/download?repository=avio-releases&group=${{ needs.Build.outputs.groupId }}&name=${{ needs.Build.outputs.artifactId }}&version=${{ needs.Build.outputs.version }}&maven.extension=jar' --output ${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar
 
     - name: Extract pom from jar
       run: |
@@ -200,7 +200,7 @@ jobs:
         restore-keys: ${{ runner.os }}-maven
 
     - name: Pull down artifact from Nexus
-      run: curl -u ${{secrets.NEXUS_USER}}:${{secrets.NEXUS_PASSWORD}} https://devops.avioconsulting.com/nexus/service/rest/v1/search/assets/download?repository=avio-releases&group=${{ needs.Build.outputs.groupId }}&name=${{ needs.Build.outputs.artifactId }}&version=${{ needs.Build.outputs.version }}&maven.extension=jar -L --output ${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar
+      run: curl -L -u ${{secrets.NEXUS_USER}}:${{secrets.NEXUS_PASSWORD}} 'https://devops.avioconsulting.com/nexus/service/rest/v1/search/assets/download?repository=avio-releases&group=${{ needs.Build.outputs.groupId }}&name=${{ needs.Build.outputs.artifactId }}&version=${{ needs.Build.outputs.version }}&maven.extension=jar' --output ${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar
 
     - name: Perform Release
       if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/development'  }}
