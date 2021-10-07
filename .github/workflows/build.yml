@@ -204,7 +204,7 @@ jobs:
         git config --local credential.helper "!f() { echo username=\\GIT_USER; echo password=\\$GIT_PASSWORD; }; f"
         git config --global user.email "${{ secrets.GIT_EMAIL }}"
         git config --global user.name "${{ secrets.GIT_USER }}"
-        git tag -a v${{ needs.Build.outputs.version }} -m "Version ${{ need.Build.outputs.version }}"
+        git tag -a v${{ needs.Build.outputs.version }} -m "Version ${{ needs.Build.outputs.version }}"
         mvn clean build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} -DprocessAllModules versions:commit
         find . -name 'pom.xml' | xargs git add
         git commit -m "Incrementing to next patch version"
