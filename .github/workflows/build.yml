@@ -144,6 +144,7 @@ jobs:
       run: |
         jar xf ${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar META-INF/maven/${{ needs.Build.outputs.groupId }}/${{ needs.Build.outputs.artifactId }}/pom.xml
         mv  META-INF/maven/${{ needs.Build.outputs.groupId }}/${{ needs.Build.outputs.artifactId }}/pom.xml .
+        ls
 
     - name: Deploy
       run: |
