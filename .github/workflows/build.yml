@@ -143,13 +143,13 @@ jobs:
     - name: Extract pom from jar
       run: |
         jar xf ${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar META-INF/maven/${{ needs.Build.outputs.groupId }}/${{ needs.Build.outputs.artifactId }}/pom.xml
-        mv  META-INF/maven/${{ needs.Build.outputs.groupId }}/${{ needs.Build.outputs.artifactId }}/pom.xml .
+        mv META-INF/maven/${{ needs.Build.outputs.groupId }}/${{ needs.Build.outputs.artifactId }}/pom.xml .
         ls
 
     - name: Deploy
       run: |
         echo "Deploy to dev env"
-        mvn mule:deploy -DmuleVersion=4.3.0 -Danypoint.username=${{ secrets.ANYPOINT_USER }} -Danypoint.password=${{ secrets.ANYPOINT_PASSWORD }} -Dmule.app.name=test-hello-world-api -DanypointGroupId=${{ secrets.ANYPOINT_GROUP_ID }} -Denv=DEV -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -DcloudhubWorkers=1 -DcloudhubWorkerType=Micro -Dmule.artifact=${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar
+        mvn -e -X mule:deploy -DmuleVersion=4.3.0 -Danypoint.username=${{ secrets.ANYPOINT_USER }} -Danypoint.password=${{ secrets.ANYPOINT_PASSWORD }} -Dmule.app.name=test-hello-world-api -DanypointGroupId=${{ secrets.ANYPOINT_GROUP_ID }} -Denv=DEV -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -DcloudhubWorkers=1 -DcloudhubWorkerType=Micro -Dmule.artifact=${{ needs.Build.outputs.artifactId }}-${{ needs.Build.outputs.version }}-mule-application.jar
 
   deploy-to-prod:
     needs: [Build,deploy-to-dev]
